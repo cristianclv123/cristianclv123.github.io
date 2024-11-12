@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuarios</title>
+</head>
+<body>
+    <h2>Usuarios Registrados</h2>
+    <ul id="userList"></ul>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js"></script>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+        
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyACdXKW9LFfwIGklWrV5wzwhbnn1M_ma-k",
+            authDomain: "iumafisdb.firebaseapp.com",
+            databaseURL: "https://iumafisdb-default-rtdb.firebaseio.com",
+            projectId: "iumafisdb",
+            storageBucket: "iumafisdb.firebasestorage.app",
+            messagingSenderId: "430224203905",
+            appId: "1:430224203905:web:11d4ad335a3a4ddfb1ad80"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Reference to 'usuarios' in the database
+        const usersRef = ref(db, 'usuarios/');
+
+        // Function to listen for data changes in the database
+        onValue(usersRef, (snapshot) => {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = ''; // Clear the list before updating
+
+            snapshot.forEach((childSnapshot) => {
+                const user = childSnapshot.val();
+                const listItem = document.createElement('li');
+                listItem.textContent = `Nombre: ${user.name}, Correo: ${user.email}`;
+                userList.appendChild(listItem);
+            });
+        });
+    </script>
+</body>
+</html>

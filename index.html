@@ -1,0 +1,109 @@
+<!--go to https://firebase.google.com/ and create a an account></go>
+comenzar con un proyecto firebase
+nombre del proyecto-iumafisdb
+seleccionar compilacion->Realtime database
+click crear una base de datos-seleeccionar estados unidos
+seleccionar -Comenzar en modo bloqueado
+-seleccionar habilitar.
+https://iumafisdb-default-rtdb.firebaseio.com/:null 
+click derecho a la base de datos en los 3 puntos crear base de datos
+
+
+3. Configurar Firebase para tu aplicación web:
+En la página de "Configuración del Proyecto tuerca", ve a la sección de "Tus aplicaciones".
+Si aún no has registrado tu aplicación, selecciona "Web" para configurar una aplicación web.
+Firebase te proporcionará una configuración de Firebase específica para tu aplicación. Esto incluirá el bloque de código con los parámetros como apiKey, authDomain, databaseURL, etc.
+configuración del proyecto configurar una aplicacion web
+-seleccionar usar una etiqueta <script>
+
+Resumen:
+Accede a la Consola de Firebase.
+Registra tu aplicación web si no lo has hecho.
+Copia la configuración que Firebase te proporciona para tu proyecto.
+Integra esta configuración en tu código JavaScript para inicializar Firebase y comenzar a trabajar con la base de datos o servicios de Firebase.
+Con esto podrás conectar tu aplicación a Firebase y empezar a interactuar con la base de datos o cualquier otro servicio que Firebase ofrezca.
+
+realtime database - reglas
+{
+  "rules": {
+    ".read": true,
+    ".write": true
+  }
+}
+  clic en publicar
+
+-->
+
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Simple</title>
+</head>
+<body>
+    <h2>Formulario de Registro</h2>
+
+    <form id="myform">
+        <label for="name">Nombre</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="email">Correo</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <button type="submit">Enviar</button>
+    </form>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js"></script>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+        
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyACdXKW9LFfwIGklWrV5wzwhbnn1M_ma-k",
+            authDomain: "iumafisdb.firebaseapp.com",
+            databaseURL: "https://iumafisdb-default-rtdb.firebaseio.com",
+            projectId: "iumafisdb",
+            storageBucket: "iumafisdb.firebasestorage.app",
+            messagingSenderId: "430224203905",
+            appId: "1:430224203905:web:11d4ad335a3a4ddfb1ad80"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Event listener for form submission
+        document.getElementById('myform').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+
+            // Guardar los datos en Firebase
+            push(ref(db, 'usuarios/'), {
+                name: name,
+                email: email
+            }).then(() => {
+                alert('Datos enviados correctamente');
+            }).catch((error) => {
+                console.error('Error al enviar los datos:', error);
+                alert('Error al enviar los datos');
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
